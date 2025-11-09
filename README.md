@@ -5,7 +5,7 @@ I simulated a nuclear chain reaction using Python, then trained a Markov-style M
 ## Overview
 This project simulates a simplified nuclear fission chain reaction and uses **machine learning models** to predict neutron counts and classify the reactor state.  
 
-It demonstrates:
+It demonstrates:-
 
 - **Markov Chain Regression**: Predicts the number of neutrons in the next step.  
 - **Classification Model**: Predicts the reactor state (`extinguished`, `equilibrium`, `supercritical`).  
