@@ -16,8 +16,6 @@ def train_markov_model():
     df = pd.read_csv(dataset_file)
 
     # Regression features
-    df["prev_neutrons"] = df["neutrons"].shift(1).fillna(0)
-    df["prev_keff"] = df["keff"].shift(1).fillna(0)
     df["interaction"] = df["prev_neutrons"] * df["neutrons"]
 
     x_reg = df[["prev_neutrons", "neutrons", "prev_keff", "keff", "interaction"]]
