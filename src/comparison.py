@@ -60,7 +60,9 @@ def compare_models(steps=20):
     sim_df.loc[1:, "ml_classification"] = le.inverse_transform(clf_model.predict(x_clf))
 
     # Regression metrics
-    y_true_reg = sim_df["next_neutrons"] if "next_neutrons" in sim_df else sim_df["neutrons"]
+    
+    sim_df["next_neutrons"] = sim_df["neutrons"].shift(-1).fillna(-1)  # Ensure next_neutrons exists before evaluating
+    y_true_reg = sim_df["next_neutrons"]
     y_pred_reg = sim_df["ml_neutrons_next"]
 
     print("\n-> Regression Model Evaluation:")
