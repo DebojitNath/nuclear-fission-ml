@@ -43,18 +43,21 @@ def train_markov_model():
     y_clf = df["classification"]
     le = LabelEncoder()
     y_clf_encoded = le.fit_transform(y_clf)
-
+    
+    x_train_clf, x_test_clf = x_clf[:split], x_clf[split:]
+    y_train_clf, y_test_clf = y_clf_encoded[:split], y_clf_encoded[split:]
+    
     clf_model = RandomForestClassifier(n_estimators=200, random_state=42)
-    clf_model.fit(x_clf, y_clf_encoded)
-    y_pred_clf_encoded = clf_model.predict(x_clf)
-    y_pred_clf = le.inverse_transform(y_pred_clf_encoded)
+    clf_model.fit(x_train_clf, y_train_clf)        
+    y_pred_clf = le.inverse_transform(clf_model.predict(x_test_clf))   
+    y_test_clf_labels = le.inverse_transform(y_test_clf) 
 
     print("\nClassification Model Evaluation:")
-    print(f"  Accuracy: {accuracy_score(y_clf, y_pred_clf):.3f}")
+    print(f"  Accuracy: {accuracy_score(y_test_clf_labels, y_pred_clf):.3f}")
     print("Confusion Matrix:")
-    print(confusion_matrix(y_clf, y_pred_clf))
+    print(confusion_matrix(y_test_clf_labels, y_pred_clf))
     print("\nClassification Report:")
-    print(classification_report(y_clf, y_pred_clf))
+    print(classification_report(y_test_clf_labels, y_pred_clf))
 
     joblib.dump(clf_model, "models/classification_model.pkl")
     joblib.dump(le, "models/clf_label_encoder.pkl")
